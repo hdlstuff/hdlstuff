@@ -1,0 +1,15 @@
+[submodule "repos/chext"]
+	path = repos/chext
+	url = https://github.com/hdlstuff/chext.git
+[submodule "repos/chext-test"]
+	path = repos/chext-test
+	url = https://github.com/hdlstuff/chext-test.git
+[submodule "repos/sctlm"]
+	path = repos/sctlm
+	url = https://github.com/hdlstuff/sctlm.git
+[submodule "repos/hdlscw"]
+	path = repos/hdlscw
+	url = https://github.com/hdlstuff/hdlscw.git
+[submodule "repos/hdlinfo"]
+	path = repos/hdlinfo
+	url = https://github.com/hdlstuff/hdlinfo.git
