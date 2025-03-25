@@ -41,6 +41,7 @@ def install() -> None:
     PythonPipInstallLocal(ctx, "hdlscw_python", "repos/hdlscw/python")
     PythonPipInstallLocal(ctx, "hdlscw_python", "repos/hdlscw/python")
     PythonPipInstallLocal(ctx, "chext-test_python", "repos/chext-test/python")
+    PythonPipInstallLocal(ctx, "sctlm_python", "repos/sctlm/python")
 
     PythonPipInstall(ctx, "plotting_stuff", ["numpy", "matplotlib"])
 
@@ -49,6 +50,10 @@ def install() -> None:
     ])
 
     CMakeLocal(ctx, "chext-test_cpp", "repos/chext-test/cpp", cmake_args=[
+        "-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_INSTALL_MODE=ABS_SYMLINK"
+    ])
+
+    CMakeLocal(ctx, "sctlm_cpp", "repos/sctlm/cpp", cmake_args=[
         "-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_INSTALL_MODE=ABS_SYMLINK"
     ])
 
