@@ -12,7 +12,7 @@ def install() -> None:
 
     InstallSbtDebian(ctx)
 
-    InstallCMake(ctx, "https://github.com/Kitware/CMake/releases/download/v4.0.2/cmake-4.0.2-linux-x86_64.sh")
+    InstallCMake(ctx, "https://github.com/Kitware/CMake/releases/download/v4.0.2/cmake-4.0.2-linux-aarch64.sh")
 
     # add other boost dependencies
     InstallBoost(ctx, "https://github.com/boostorg/boost/releases/download/boost-1.87.0/boost-1.87.0-cmake.tar.gz")

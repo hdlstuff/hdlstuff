@@ -10,12 +10,14 @@ class CMakeTarRemote(Task):
         context: Context,
         basename: str,
         tar_link: str,
-        cmake_args: List[str]
+        cmake_args: List[str],
+        cmake_install_mode: str = "COPY"
     ):
         super().__init__(context, f"cmake:tar_remote:{basename}")
 
         self._tar_link = tar_link
         self._cmake_args = list(cmake_args)
+        self._cmake_install_mode = cmake_install_mode
 
     def main(self) -> None:
         import tempfile
@@ -62,12 +64,8 @@ class CMakeTarRemote(Task):
                 cwd=f"{temp_dir}/build"
             )
 
-            self.ctx.run_command(
-                [
-                    "cmake",
-                    "--install", ".",
-                    "--strip"
-                ],
+            self.ctx.run_sh(
+                f"CMAKE_INSTALL_MODE={self._cmake_install_mode} cmake --install . --strip",
                 cwd=f"{temp_dir}/build"
             )
 
@@ -78,12 +76,14 @@ class CMakeLocal(Task):
         context: Context,
         basename: str,
         src_path: str,
-        cmake_args: List[str]
+        cmake_args: List[str],
+        cmake_install_mode: str = "COPY"
     ):
         super().__init__(context, f"cmake:local:{basename}")
 
         self._src_path = src_path
         self._cmake_args = list(cmake_args)
+        self._cmake_install_mode = cmake_install_mode
 
     def main(self) -> None:
         import tempfile
@@ -107,8 +107,8 @@ class CMakeLocal(Task):
                 ] + self._cmake_args
             )
 
-            self.ctx.run_command(
-                ["ninja", "install/strip"],
+            self.ctx.run_sh(
+                f"CMAKE_INSTALL_MODE={self._cmake_install_mode} ninja install/strip",
                 cwd=f"{temp_dir}/build"
             )
 

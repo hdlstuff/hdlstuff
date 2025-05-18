@@ -42,6 +42,9 @@ hdlstuff_activate() {
 
     hdlstuff_set_var "SBT_OPTS" "-Dsbt.ivy.home=$HDLSTUFF_PREFIX/.ivy2 $SBT_OPTS"
 
+    hdlstuff_set_var "CMAKE_INSTALL_PREFIX" "$HDLSTUFF_PREFIX"
+    hdlstuff_set_var "CMAKE_PREFIX_PATH" "$HDLSTUFF_PREFIX"
+
     hdlstuff_set_var "PS1" "(hdlstuff) $PS1"
 
     hash -r 2>/dev/null
@@ -64,6 +67,9 @@ hdlstuff_deactivate() {
     hdlstuff_reset_var "LD_LIBRARY_PATH"
 
     hdlstuff_reset_var "SBT_OPTS"
+
+    hdlstuff_reset_var "CMAKE_INSTALL_PREFIX"
+    hdlstuff_reset_var "CMAKE_PREFIX_PATH"
 
     hdlstuff_reset_var "PS1"
 
