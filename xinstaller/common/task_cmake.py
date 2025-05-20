@@ -33,13 +33,16 @@ class CMakeTarRemote(Task):
             )
 
             self.ctx.run_command(
-                ["tar", "-xzf", f"{temp_dir}/source.tar.gz", "-C", f"{temp_dir}/"]
+                ["tar", "-xzf", f"{temp_dir}/source.tar.gz",
+                    "-C", f"{temp_dir}/"]
             )
 
-            dirs = [d for d in os.listdir(temp_dir) if os.path.isdir(os.path.join(temp_dir, d))]
+            dirs = [d for d in os.listdir(temp_dir) if os.path.isdir(
+                os.path.join(temp_dir, d))]
             assert len(dirs) == 1
 
-            os.rename(os.path.join(temp_dir, dirs[0]), os.path.join(temp_dir, "source"))
+            os.rename(os.path.join(temp_dir, dirs[0]), os.path.join(
+                temp_dir, "source"))
 
             self.ctx.run_command(
                 ["mkdir", "-p", f"{temp_dir}/build"]
@@ -86,31 +89,23 @@ class CMakeLocal(Task):
         self._cmake_install_mode = cmake_install_mode
 
     def main(self) -> None:
-        import tempfile
-
         self.ctx.needs_command("cmake")
         self.ctx.needs_command("ninja")
 
-        with tempfile.TemporaryDirectory() as temp_dir:
-            self.ctx.run_command(
-                ["mkdir", "-p", f"{temp_dir}/build"]
-            )
+        source_path = self.ctx.source(self._src_path)
+        build_path = f"{source_path}/build"
+        prefix_path = self.ctx.prefix()
 
-            self.ctx.run_command(
-                [
-                    "cmake",
-                    "-S", self.ctx.source(self._src_path),
-                    "-B", f"{temp_dir}/build",
-                    "-G", f"Ninja",
-                    f"-DCMAKE_INSTALL_PREFIX={self.ctx.prefix()}",
-                    f"-DCMAKE_PREFIX_PATH={self.ctx.prefix()}"
-                ] + self._cmake_args
-            )
+        self.ctx.run_sh(f"mkdir -p '{build_path}'")
 
-            self.ctx.run_sh(
-                f"CMAKE_INSTALL_MODE={self._cmake_install_mode} ninja install/strip",
-                cwd=f"{temp_dir}/build"
-            )
+        self.ctx.run_sh(
+            f"cmake -S '{source_path}' -B '{build_path}' -G Ninja '-DCMAKE_INSTALL_PREFIX={prefix_path}' '-DCMAKE_PREFIX_PATH={prefix_path}'"
+        )
+
+        self.ctx.run_sh(
+            f"CMAKE_INSTALL_MODE={self._cmake_install_mode} ninja install/strip",
+            cwd=build_path
+        )
 
 
 __all__ = [
