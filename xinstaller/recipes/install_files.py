@@ -2,10 +2,12 @@ from ..common import *
 
 import os
 
+
 class InstallFiles(Task):
-    def __init__(self, context: Context, files: List[str]):
+    def __init__(self, context: Context, local_path: str, files: List[str]):
         super().__init__(context, "install:files")
 
+        self._local_path = local_path
         self._files = list(files)
 
     def main(self):
@@ -13,7 +15,7 @@ class InstallFiles(Task):
         self.ctx.needs_command("ln")
 
         for file in self._files:
-            source_file = self.ctx.source("prefix/" + file)
+            source_file = self.ctx.source(f"{self._local_path}/{file}")
             target_file = self.ctx.prefix(file)
 
             os.makedirs(os.path.dirname(target_file), exist_ok=True)

@@ -46,7 +46,7 @@ def install() -> None:
     SbtPublishLocal(ctx, "hdlinfo_scala", "repos/hdlinfo/scala")
     SbtPublishLocal(ctx, "chext_scala", "repos/chext")
 
-    InstallFiles(ctx, ["bin/activate-hdlstuff.sh"])
+    InstallFiles(ctx, "prefix/macOS", ["bin/activate-hdlstuff.sh"])
 
     ctx.run()
     ctx.log(f"Please activate the environment using: '. {ctx.prefix("bin/activate-hdlstuff.sh")}'")
