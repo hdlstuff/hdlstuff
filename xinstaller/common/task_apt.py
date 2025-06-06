@@ -17,6 +17,5 @@ class AptInstall(Task):
 
 
 ___all__ = [
-    "AptUpdate",
     "AptInstall"
 ]

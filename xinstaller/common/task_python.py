@@ -39,7 +39,7 @@ class PythonPipInstall(Task):
     def main(self):
         for package in self._packages:
             if not self.context.run_sh(
-                f". {self.ctx.prefix('bin/activate-python')} ; python3 -m pip install {package}",
+                f". {self.ctx.prefix('bin/activate-python')} ; python3 -m pip install --upgrade {package}",
                 fail_ok=True
             ):
                 self.ctx.log(f"cannot install: {package}")
