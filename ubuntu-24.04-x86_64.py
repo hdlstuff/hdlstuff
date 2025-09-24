@@ -49,6 +49,10 @@ def install() -> None:
         "-DCMAKE_BUILD_TYPE=Release",
     ], cmake_install_mode="ABS_SYMLINK")
 
+    CMakeLocal(ctx, "hdlstuff-hal", "repos/hdlstuff-hal", cmake_args=[
+        "-DCMAKE_BUILD_TYPE=Release",
+    ], cmake_install_mode="ABS_SYMLINK")
+
     CMakeLocal(ctx, "chext-test_cpp", "repos/chext-test/cpp", cmake_args=[
         "-DCMAKE_BUILD_TYPE=Release",
     ], cmake_install_mode="ABS_SYMLINK")
