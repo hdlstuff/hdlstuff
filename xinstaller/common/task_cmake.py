@@ -2,6 +2,7 @@ from typing import *
 
 from .framework import *
 import os
+import shutil
 
 
 class CMakeTarRemote(Task):
@@ -97,6 +98,10 @@ class CMakeLocal(Task):
         source_path = self.ctx.source(self._src_path)
         build_path = f"{source_path}/build"
         prefix_path = self.ctx.prefix()
+
+        if os.path.isdir(build_path):
+            self.ctx.log(f"removing existing build directory: {build_path}")
+            shutil.rmtree(build_path)
 
         self.ctx.run_sh(f"mkdir -p '{build_path}'")
 
