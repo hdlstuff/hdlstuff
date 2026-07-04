@@ -4,8 +4,8 @@ import os
 
 
 class InstallFiles(Task):
-    def __init__(self, context: Context, local_path: str, files: List[str]):
-        super().__init__(context, "install:files")
+    def __init__(self, context: Context, local_path: str, files: List[str], force: bool = False):
+        super().__init__(context, "install:files", force=force)
 
         self._local_path = local_path
         self._files = list(files)

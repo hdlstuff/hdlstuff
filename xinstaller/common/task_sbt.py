@@ -9,8 +9,8 @@ from .framework import *
 
 
 class SbtPublishLocal(Task):
-    def __init__(self, context: Context, name: str, proj_dirpath: str):
-        super().__init__(context, f"sbt:publish_local:{name}", True)
+    def __init__(self, context: Context, name: str, proj_dirpath: str, force: bool = False):
+        super().__init__(context, f"sbt:publish_local:{name}", True, force=force)
         self._proj_dirpath = proj_dirpath
 
     def main(self):

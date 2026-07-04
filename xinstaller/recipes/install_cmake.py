@@ -3,8 +3,8 @@ from ..common import *
 
 
 class InstallCMake(Task):
-    def __init__(self, context: Context, link: str):
-        super().__init__(context, "install:cmake")
+    def __init__(self, context: Context, link: str, force: bool = False):
+        super().__init__(context, "install:cmake", force=force)
 
         self._link = link
 

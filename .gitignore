@@ -163,3 +163,4 @@ cython_debug/
 
 task_log.err
 task_log.out
+*-local.py

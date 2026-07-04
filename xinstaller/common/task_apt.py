@@ -3,8 +3,8 @@ from .framework import *
 
 
 class AptInstall(Task):
-    def __init__(self, context: Context, name: str, package_names: List[str]):
-        super().__init__(context, "apt:install:" + name)
+    def __init__(self, context: Context, name: str, package_names: List[str], force: bool = False):
+        super().__init__(context, "apt:install:" + name, force=force)
         self._package_names = list(package_names)
 
     def main(self):

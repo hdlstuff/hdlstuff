@@ -11,9 +11,10 @@ class CMakeTarRemote(Task):
         basename: str,
         tar_link: str,
         cmake_args: List[str],
-        cmake_install_mode: str = "COPY"
+        cmake_install_mode: str = "COPY",
+        force: bool = False
     ):
-        super().__init__(context, f"cmake:tar_remote:{basename}")
+        super().__init__(context, f"cmake:tar_remote:{basename}", force=force)
 
         self._tar_link = tar_link
         self._cmake_args = list(cmake_args)
@@ -80,9 +81,10 @@ class CMakeLocal(Task):
         basename: str,
         src_path: str,
         cmake_args: List[str],
-        cmake_install_mode: str = "COPY"
+        cmake_install_mode: str = "COPY",
+        force: bool = False
     ):
-        super().__init__(context, f"cmake:local:{basename}")
+        super().__init__(context, f"cmake:local:{basename}", force=force)
 
         self._src_path = src_path
         self._cmake_args = list(cmake_args)

@@ -4,8 +4,8 @@ from .framework import *
 
 
 class PythonCreateVenv(Task):
-    def __init__(self, context):
-        super().__init__(context, "python:create_venv", True)
+    def __init__(self, context, force: bool = False):
+        super().__init__(context, "python:create_venv", True, force=force)
 
     def main(self):
         self.context.run_command(["python3", "-m", "venv", self.ctx.prefix()])
@@ -20,8 +20,8 @@ class PythonCreateVenv(Task):
 
 
 class PythonPipInstallLocal(Task):
-    def __init__(self, context: Context, name: str, src_path: str):
-        super().__init__(context, f"python:pip_install_local:{name}", name)
+    def __init__(self, context: Context, name: str, src_path: str, force: bool = False):
+        super().__init__(context, f"python:pip_install_local:{name}", True, force=force)
         self._src_path = src_path
 
     def main(self):
@@ -32,8 +32,8 @@ class PythonPipInstallLocal(Task):
 
 
 class PythonPipInstall(Task):
-    def __init__(self, context: Context, name: str, packages: str):
-        super().__init__(context, f"python:pip_install:{name}", name)
+    def __init__(self, context: Context, name: str, packages: str, force: bool = False):
+        super().__init__(context, f"python:pip_install:{name}", True, force=force)
         self._packages = packages
 
     def main(self):

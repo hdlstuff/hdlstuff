@@ -2,8 +2,8 @@ from ..common import *
 
 
 class InstallSbtDebian(Task):
-    def __init__(self, context: Context):
-        super().__init__(context, "install:sbt")
+    def __init__(self, context: Context, force: bool = False):
+        super().__init__(context, "install:sbt", force=force)
 
     def main(self):
         self.ctx.needs_command("apt")

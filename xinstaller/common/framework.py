@@ -172,12 +172,13 @@ class Context:
 
 
 class Task(abc.ABC):
-    def __init__(self, context: Context, name: str = "task", skippable: bool = True):
+    def __init__(self, context: Context, name: str = "task", skippable: bool = True, force: bool = False):
         context._append_task(self)
         self._context = context
         self._name = name
         self._attrs: Dict[str, str] = {}
         self._skippable = skippable
+        self._force = force
 
     @property
     def name(self) -> str:
@@ -196,9 +197,9 @@ class Task(abc.ABC):
         return self._context
 
     def run(self) -> None:
-        if self._skippable and self.ctx._task_is_complete(self):
+        if self._skippable and not self._force and self.ctx._task_is_complete(self):
             self.ctx.log(
-                f"task already complete: {self.name} (remove {self.name} from '{self.ctx.prefix('.installer.txt')}' to force install)"
+                f"task already complete: {self.name} (remove {self.name} from '{self.ctx.prefix('.installer.txt')}' or pass force=True to force install)"
             )
 
         else:
@@ -208,7 +209,8 @@ class Task(abc.ABC):
             self.main()
 
             self.ctx.indent_out()
-            self.ctx._task_mark_complete(self)
+            if not self.ctx._task_is_complete(self):
+                self.ctx._task_mark_complete(self)
 
 
 __all__ = [
