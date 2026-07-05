@@ -83,6 +83,7 @@ class CMakeLocal(Task):
         src_path: str,
         cmake_args: List[str],
         cmake_install_mode: str = "COPY",
+        cleanup_build_dir: bool = False,
         force: bool = False
     ):
         super().__init__(context, f"cmake:local:{basename}", force=force)
@@ -90,6 +91,7 @@ class CMakeLocal(Task):
         self._src_path = src_path
         self._cmake_args = list(cmake_args)
         self._cmake_install_mode = cmake_install_mode
+        self._cleanup_build_dir = cleanup_build_dir
 
     def main(self) -> None:
         self.ctx.needs_command("cmake")
@@ -99,7 +101,7 @@ class CMakeLocal(Task):
         build_path = f"{source_path}/build"
         prefix_path = self.ctx.prefix()
 
-        if os.path.isdir(build_path):
+        if self._cleanup_build_dir and os.path.isdir(build_path):
             self.ctx.log(f"removing existing build directory: {build_path}")
             shutil.rmtree(build_path)
 
