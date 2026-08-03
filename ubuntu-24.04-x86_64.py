@@ -37,32 +37,35 @@ def install() -> None:
 
     PythonCreateVenv(ctx)
 
-    PythonPipInstallLocal(ctx, "hdlinfo_python", "repos/hdlinfo/python")
-    PythonPipInstallLocal(ctx, "hdlscw_python", "repos/hdlscw/python")
-    PythonPipInstallLocal(ctx, "hdlscw_python", "repos/hdlscw/python")
-    PythonPipInstallLocal(ctx, "chext-test_python", "repos/chext-test/python")
-    PythonPipInstallLocal(ctx, "sctlm_python", "repos/sctlm/python")
+    PythonPipInstallLocal(ctx, "hdlstuff_hdlinfo", "repos/hdlinfo/python", ["hdlinfo"])
+    PythonPipInstallLocal(ctx, "hdlstuff_hdlscw", "repos/hdlscw/python", ["hdlscw"])
+    PythonPipInstallLocal(ctx, "hdlstuff_chext_test", "repos/chext-test/python", ["chext_test"])
+    PythonPipInstallLocal(ctx, "hdlstuff_sctlm", "repos/sctlm/python", ["sctlm"])
 
     PythonPipInstall(ctx, "plotting_stuff", ["numpy", "matplotlib"])
 
-    CMakeLocal(ctx, "hdlscw_cpp", "repos/hdlscw/cpp", cmake_args=[
+    CMakeLocal(ctx, "hdlstuff_hdlscw", "repos/hdlscw/cpp", cmake_args=[
         "-DCMAKE_BUILD_TYPE=Release",
     ], cmake_install_mode="ABS_SYMLINK")
 
-    CMakeLocal(ctx, "hdlstuff-hal", "repos/hdlstuff-hal", cmake_args=[
+    CMakeLocal(ctx, "hdlstuff_hal", "repos/hdlstuff-hal", cmake_args=[
         "-DCMAKE_BUILD_TYPE=Release",
     ], cmake_install_mode="ABS_SYMLINK")
 
-    CMakeLocal(ctx, "chext-test_cpp", "repos/chext-test/cpp", cmake_args=[
+    CMakeLocal(ctx, "hdlstuff_hdlinfo", "repos/hdlinfo/cpp", cmake_args=[
         "-DCMAKE_BUILD_TYPE=Release",
     ], cmake_install_mode="ABS_SYMLINK")
 
-    CMakeLocal(ctx, "sctlm_cpp", "repos/sctlm/cpp", cmake_args=[
+    CMakeLocal(ctx, "hdlstuff_chext_test", "repos/chext-test/cpp", cmake_args=[
         "-DCMAKE_BUILD_TYPE=Release",
     ], cmake_install_mode="ABS_SYMLINK")
 
-    SbtPublishLocal(ctx, "hdlinfo_scala", "repos/hdlinfo/scala")
-    SbtPublishLocal(ctx, "chext_scala", "repos/chext")
+    CMakeLocal(ctx, "hdlstuff_sctlm", "repos/sctlm/cpp", cmake_args=[
+        "-DCMAKE_BUILD_TYPE=Release",
+    ], cmake_install_mode="ABS_SYMLINK")
+
+    SbtPublishLocal(ctx, "hdlstuff_hdlinfo", "repos/hdlinfo/scala", [("hdlstuff", "hdlinfo")])
+    SbtPublishLocal(ctx, "hdlstuff_chext", "repos/chext", [("hdlstuff", "chext")])
 
     InstallFiles(ctx, "prefix/ubuntu", ["bin/activate-hdlstuff.sh"])
 
